@@ -1,11 +1,11 @@
 import java.util.Scanner;
-public class ConnectFourGame {
+public class Game {
     private static final int ROWS = 6;
     private static final int COLS = 7;
     private static final char EMPTY = '-';
     private char[][] board = new char[ROWS][COLS];
     private char currentPlayer;
-    public ConnectFourGame() {
+    public Game() {
         initializeBoard();
         currentPlayer = 'X';
     }
