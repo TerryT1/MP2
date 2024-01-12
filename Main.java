@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        ConnectFourGame game = new ConnectFourGame();
+        Game game = new Game();
         game.play();
     }
 }
