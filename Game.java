@@ -1,97 +1,115 @@
-import java.util.Scanner;
-
 public class Game {
-    private static int rows = 6;
-    private static int cols = 7;
-    private static char empty = '-';
-    private char[][] board = new char[rows][cols];
-    private char currentPlayer;
-
+    private static final int rows = 6;
+    private static final int cols = 7;
+    private char[][] board;
+    private int[] boards = {1, 2, 3, 4, 5, 6, 7};
+       
+    /**
+     * Constructs a new Game object and initializes the game board.
+     */
     public Game() {
         initializeBoard();
-        currentPlayer = 'X';
     }
 
     private void initializeBoard() {
+        board = new char[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                board[i][j] = empty;
+                board[i][j] = '-';
             }
         }
     }
+    /**
+     * Gets the current game board.
+     *
+     * @return the game board.
+     */
 
-    private void printBoard() {
-        for (char[] row : board) {
-            for (char cell : row) {
-                System.out.print(cell + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+    public char[][] getBoard() {
+        return board;
     }
+    
+    /**
+     * Makes a move in the specified column for the given player symbol.
+     *
+     * @param column       The column where the move is made.
+     * @param playerSymbol The symbol of the player making the move.
+     * @return True if the move is successful, false otherwise.
+     */
 
-    private boolean isValidMove(int column) {
-        return column >= 0 && column < cols && board[0][column] == empty;
-    }
-
-    private void dropToken(int column) {
+    public boolean makeMove(int column, char playerSymbol) {
         for (int i = rows - 1; i >= 0; i--) {
-            if (board[i][column] == empty) {
-                board[i][column] = currentPlayer;
-                break;
-            }
-        }
-    }
-
-    private boolean checkForWin() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols - 3; j++) {
-                if (board[i][j] == currentPlayer && board[i][j + 1] == currentPlayer && board[i][j + 2] == currentPlayer && board[i][j + 3] == currentPlayer) {
-                    return true;
-                }
-            }
-        }
-        for (int i = 0; i < rows - 3; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (board[i][j] == currentPlayer && board[i + 1][j] == currentPlayer && board[i + 2][j] == currentPlayer && board[i + 3][j] == currentPlayer) {
-                    return true;
-                }
-            }
-        }
-        for (int i = 0; i < rows - 3; i++) {
-            for (int j = 0; j < cols - 3; j++) {
-                if (board[i][j] == currentPlayer && board[i + 1][j + 1] == currentPlayer && board[i + 2][j + 2] == currentPlayer && board[i + 3][j + 3] == currentPlayer) {
-                    return true;
-                }
-            }
-        }
-        for (int i = 0; i < rows - 3; i++) {
-            for (int j = 3; j < cols; j++) {
-                if (board[i][j] == currentPlayer && board[i + 1][j - 1] == currentPlayer && board[i + 2][j - 2] == currentPlayer && board[i + 3][j - 3] == currentPlayer) {
-                    return true;
-                }
+            if (board[i][column] == '-') {
+                board[i][column] = playerSymbol;
+                Utils.incrementMoves();
+                return true;
             }
         }
         return false;
     }
 
-    public void play() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            printBoard();
-            System.out.println("Player " + currentPlayer + "'s turn. Enter column (1-" + cols + "): ");
-            int column = scanner.nextInt() - 1;
-            if (isValidMove(column)) {
-                dropToken(column);
-                if (checkForWin()) {
-                    System.out.println("Player " + currentPlayer + " wins!");
-                    break;
+    public boolean checkForWin(char playerSymbol) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j <= cols - 4; j++) {
+                if (board[i][j] == playerSymbol &&
+                        board[i][j + 1] == playerSymbol &&
+                        board[i][j + 2] == playerSymbol &&
+                        board[i][j + 3] == playerSymbol) {
+                    return true;
                 }
-                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
-            } else {
-                System.out.println("Invalid move. Try again.");
             }
         }
-        scanner.close();
+
+        for (int i = 0; i <= rows - 4; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j] == playerSymbol &&
+                        board[i + 1][j] == playerSymbol &&
+                        board[i + 2][j] == playerSymbol &&
+                        board[i + 3][j] == playerSymbol) {
+                    return true;
+                }
+            }
+        }
+
+        for (int i = 0; i <= rows - 4; i++) {
+            for (int j = 0; j <= cols - 4; j++) {
+                if (board[i][j] == playerSymbol &&
+                        board[i + 1][j + 1] == playerSymbol &&
+                        board[i + 2][j + 2] == playerSymbol &&
+                        board[i + 3][j + 3] == playerSymbol) {
+                    return true;
+                }
+            }
+        }
+
+        for (int i = 3; i < rows; i++) {
+            for (int j = 0; j <= cols - 4; j++) {
+                if (board[i][j] == playerSymbol &&
+                        board[i - 1][j + 1] == playerSymbol &&
+                        board[i - 2][j + 2] == playerSymbol &&
+                        board[i - 3][j + 3] == playerSymbol) {
+                    return true;
+                }
+            }
+        }
+
+        return false; 
+    }
+
+    public boolean checkForDraw() {
+        for (int i = 0; i < cols; i++) {
+            if (board[0][i] == '-') {
+                return false; 
+            }
+        }
+        return true; 
+    }
+
+    public static int getRows() {
+        return rows;
+    }
+
+    public static int getCols() {
+        return cols;
     }
 }
