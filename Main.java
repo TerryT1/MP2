@@ -11,9 +11,6 @@ public class Main {
 
         while (gameActive) {
             printBoard(game.getBoard());
-            
-              
-
             playerMove(game, scanner, playerX);
             printBoard(game.getBoard()); 
 
