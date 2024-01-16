@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Game {
     private static int rows = 6;
     private static int cols = 7;
-    private static char EMPTY = '-';
+    private static char empty = '-';
     private char[][] board = new char[rows][cols];
     private char currentPlayer;
 
@@ -15,7 +15,7 @@ public class Game {
     private void initializeBoard() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                board[i][j] = EMPTY;
+                board[i][j] = empty;
             }
         }
     }
@@ -31,12 +31,12 @@ public class Game {
     }
 
     private boolean isValidMove(int column) {
-        return column >= 0 && column < cols && board[0][column] == EMPTY;
+        return column >= 0 && column < cols && board[0][column] == empty;
     }
 
     private void dropToken(int column) {
         for (int i = rows - 1; i >= 0; i--) {
-            if (board[i][column] == EMPTY) {
+            if (board[i][column] == empty) {
                 board[i][column] = currentPlayer;
                 break;
             }
