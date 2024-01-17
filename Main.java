@@ -47,7 +47,7 @@ public class Main {
                 break;
             }
 
-            Connect4Utils.incrementMoves();
+            Utils.incrementMoves();
         }     
         System.out.println(new Utils().toString());
         scanner.close();
