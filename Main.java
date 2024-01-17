@@ -47,7 +47,6 @@ public class Main {
                 break;
             }
 
-            Utils.incrementMoves();
         }     
         System.out.println(new Utils().toString());
         scanner.close();
@@ -84,4 +83,3 @@ public class Main {
         System.out.println();
     }
 }
-
